@@ -1342,8 +1342,13 @@ public:
 class h265_exception
 {
 public:
+#ifdef MFX_DEBUG_TRACE
+    h265_exception(int32_t status = -1, char *_file= nullptr, char *_function=nullptr, int _line=0)
+        : m_Status(status), m_file(_file), m_function(_function), m_line(_line)
+#else
     h265_exception(int32_t status = -1)
         : m_Status(status)
+#endif
     {
     }
 
@@ -1356,9 +1361,30 @@ public:
         return m_Status;
     }
 
+#ifdef MFX_DEBUG_TRACE
+    std::string What()
+    {
+        std::string str(m_file);
+        str.append(" :");
+        str.append(std::to_string(m_line));
+        str.append(" :");
+        str.append(m_function);
+        str.append(" :");
+        str.append(" (");
+        str.append(std::to_string(m_Status));
+        str.append(")");
+        return str;
+    }
+#endif
+
 private:
     int32_t m_Status;
+    char   *m_file;
+    char   *m_function;
+    int     m_line;
 };
+
+#define h265_exception(ex) h265_exception(ex, __FILE__, __FUNCTION__, __LINE__)
 
 // Allocate an array or throw exception
 template <typename T>
