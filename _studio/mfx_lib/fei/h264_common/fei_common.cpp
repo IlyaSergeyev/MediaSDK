@@ -666,6 +666,7 @@ mfxStatus MfxH264FEIcommon::CheckInitExtBuffers(const MfxVideoParam & owned_vide
 
         // Update internal SPS if FEI SPS buffer attached
         mfxExtSpsHeader * extSps = GetExtBuffer(owned_video);
+        MFX_CHECK(extSps, MFX_ERR_INVALID_VIDEO_PARAM);
 
         extSps->seqParameterSetId           = pDataSPS->SPSId;
         extSps->picOrderCntType             = pDataSPS->PicOrderCntType;
