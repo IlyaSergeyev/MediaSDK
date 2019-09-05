@@ -77,6 +77,7 @@ public:
     virtual mfxStatus Close();
     virtual mfxStatus AllocFrames(mfxFrameAllocRequest *request, mfxFrameAllocResponse *response);
     virtual mfxStatus FreeFrames(mfxFrameAllocResponse *response);
+    virtual mfxStatus ReallocFrame(mfxMemId mid, const mfxFrameInfo *info, mfxU16 memType, mfxMemId *midOut);
 
 protected:
     std::mutex mtx;
@@ -174,6 +175,8 @@ protected:
     virtual mfxStatus ReleaseResponse(mfxFrameAllocResponse *response) = 0;
     // allocates memory
     virtual mfxStatus AllocImpl(mfxFrameAllocRequest *request, mfxFrameAllocResponse *response) = 0;
+    // reallocates (free and allocates with new params) one surface
+    virtual mfxStatus ReallocImpl(mfxMemId mid, const mfxFrameInfo *info, mfxU16 memType, mfxMemId *midOut) = 0;
 };
 
 class MFXBufferAllocator : public mfxBufferAllocator

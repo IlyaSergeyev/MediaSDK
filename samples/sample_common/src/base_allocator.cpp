@@ -178,6 +178,11 @@ mfxStatus BaseFrameAllocator::AllocFrames(mfxFrameAllocRequest *request, mfxFram
     return sts;
 }
 
+mfxStatus BaseFrameAllocator::ReallocFrame(mfxMemId mid, const mfxFrameInfo *info, mfxU16 memType, mfxMemId *midOut)
+{
+    return MFX_ERR_UNSUPPORTED;
+}
+
 mfxStatus BaseFrameAllocator::FreeFrames(mfxFrameAllocResponse *response)
 {
     std::lock_guard<std::mutex> lock(mtx);

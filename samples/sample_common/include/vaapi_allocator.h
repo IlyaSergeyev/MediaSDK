@@ -98,11 +98,14 @@ protected:
     virtual mfxStatus CheckRequestType(mfxFrameAllocRequest *request);
     virtual mfxStatus ReleaseResponse(mfxFrameAllocResponse *response);
     virtual mfxStatus AllocImpl(mfxFrameAllocRequest *request, mfxFrameAllocResponse *response);
+    virtual mfxStatus ReallocImpl(mfxMemId mid, const mfxFrameInfo *info, mfxU16 memType, mfxMemId *midOut);
 
     VADisplay m_dpy;
     MfxLoader::VA_Proxy * m_libva;
     mfxU32 m_export_mode;
     vaapiAllocatorParams::Exporter* m_exporter;
+    mfxU32    m_Width;
+    mfxU32    m_Height;
 };
 
 #endif //#if defined(LIBVA_SUPPORT)

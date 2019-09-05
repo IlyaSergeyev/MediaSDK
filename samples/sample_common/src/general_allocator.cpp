@@ -137,6 +137,23 @@ mfxStatus GeneralAllocator::AllocImpl(mfxFrameAllocRequest *request, mfxFrameAll
     }
     return sts;
 }
+mfxStatus GeneralAllocator::ReallocImpl(mfxMemId mid, const mfxFrameInfo *info, mfxU16 memType, mfxMemId *midOut)
+{
+    mfxStatus sts;
+    if ((memType & MFX_MEMTYPE_VIDEO_MEMORY_DECODER_TARGET || memType & MFX_MEMTYPE_VIDEO_MEMORY_PROCESSOR_TARGET) && m_D3DAllocator.get())
+    {
+        sts = m_D3DAllocator.get()->ReallocFrame(mid, info, memType, midOut);
+        MSDK_CHECK_NOT_EQUAL(MFX_ERR_NONE, sts, sts);
+        // update mid here
+    }
+    else
+    {
+        sts = m_SYSAllocator.get()->ReallocFrame(mid, info, memType, midOut);
+        MSDK_CHECK_NOT_EQUAL(MFX_ERR_NONE, sts, sts);
+        // update mid here
+    }
+    return sts;
+}
 void    GeneralAllocator::StoreFrameMids(bool isD3DFrames, mfxFrameAllocResponse *response)
 {
     for (mfxU32 i = 0; i < response->NumFrameActual; i++)
