@@ -138,6 +138,9 @@ static void FillSurfaceAttrs(std::vector<VASurfaceAttrib> &attrib, unsigned int 
         case MFX_FOURCC_A2RGB10:
             format = VA_RT_FORMAT_RGB32_10BPP;
             break;
+        case MFX_FOURCC_AYUV:
+            format = VA_RT_FORMAT_YUV444;
+            break;
         case MFX_FOURCC_RGBP:
             format = VA_RT_FORMAT_RGBP;
             break;

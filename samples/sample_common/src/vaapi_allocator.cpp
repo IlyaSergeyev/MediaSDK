@@ -237,6 +237,10 @@ mfxStatus vaapiFrameAllocator::AllocImpl(mfxFrameAllocRequest *request, mfxFrame
             {
                 format = VA_RT_FORMAT_RGBP;
             }
+            else if (fourcc == MFX_FOURCC_AYUV)
+            {
+                format = VA_RT_FORMAT_YUV444;
+            }
 
             va_res = m_libva->vaCreateSurfaces(m_dpy,
                                     format,
